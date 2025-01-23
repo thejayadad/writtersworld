@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Toolbar from "./tool-bar";
 
-const UpdatePostForm = ({ post }: { post: { id: number; title: string; content: string } }) => {
+const UpdatePostForm = ({ post }: { post: { id: string; title: string; content: string } }) => {
   const [title, setTitle] = useState(post.title);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -23,18 +24,15 @@ const UpdatePostForm = ({ post }: { post: { id: number; title: string; content: 
 
     try {
       await updatePost({
-        id: post.id.toString(),
+        id: post.id,
         title,
         content: editor?.getHTML() || "",
       });
 
       toast.success("Post updated successfully!");
 
-      // Redirect to the updated post page or home
-      router.push(`/${post.id}`);
     } catch (error) {
-      toast.error("Failed to update post. Please try again.");
-      console.error("Error updating post:", error);
+      console.log("Error updating post:" + error);
     } finally {
       setIsSubmitting(false);
     }
@@ -53,8 +51,15 @@ const UpdatePostForm = ({ post }: { post: { id: number; title: string; content: 
         disabled={isSubmitting}
       />
 
-      <div className="border p-2 rounded-md">
-        {editor ? <EditorContent editor={editor} /> : <p>Loading editor...</p>}
+      <div className="border rounded-md">
+        {editor ? (
+          <>
+            <Toolbar editor={editor} content={post.content} />
+            <EditorContent editor={editor} className="p-4" />
+          </>
+        ) : (
+          <p>Loading editor...</p>
+        )}
       </div>
 
       <button

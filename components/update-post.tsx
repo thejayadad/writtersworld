@@ -30,6 +30,7 @@ const UpdatePostForm = ({ post }: { post: { id: string; title: string; content: 
       });
 
       toast.success("Post updated successfully!");
+      router.push("/");
 
     } catch (error) {
       console.log("Error updating post:" + error);

@@ -1,30 +1,34 @@
 import DeletePost from "@/components/delete-post";
 import { getPost } from "@/lib/actions/get-post";
 import Link from "next/link";
+import { FiEdit } from "react-icons/fi";
 
 export default async function Home() {
-  const posts = await getPost() ?? [];  // Ensure posts is always an array
+  const posts = await getPost() ?? []; // Ensure posts is always an array
 
   return (
-    <div className="mx-auto max-w-screen-lg px-4">
+    <div className="mx-auto max-w-screen-lg px-4 pt-4">
       {posts.length > 0 ? (
-        posts.map((post) => (
-          <div key={post.id} className="border-b flex items-center justify-between border-gray-300 py-4">
-          <Link href={`/${post.id}`} className="text-blue-500 hover:underline text-lg font-semibold">
-            {post.title}
-          </Link>
-          <div className="flex items-center space-x-2">
-            <Link href={`/update/${post.id}`}>
-              Update
-            </Link>
-            <div>
-            <DeletePost postId={post.id.toString()} />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {posts.map((post) => (
+            <div key={post.id} className="border border-gray-300 rounded-lg p-4 shadow-sm bg-white">
+              <Link
+                href={`/${post.id}`}
+                className="text-gray-700 hover:underline text-lg font-semibold block mb-2"
+              >
+                {post.title}
+              </Link>
+              <div className="flex justify-between items-center mt-4">
+                <Link href={`/update/${post.id}`} className="text-purple-500">
+                  <FiEdit className="h-5 w-5" />
+                </Link>
+                <DeletePost postId={post.id.toString()} />
+              </div>
             </div>
-          </div>
-         </div>
-        ))
+          ))}
+        </div>
       ) : (
-        <p className="text-gray-500">No posts available.</p>
+        <p className="text-gray-500 text-center mt-10">No posts available.</p>
       )}
     </div>
   );

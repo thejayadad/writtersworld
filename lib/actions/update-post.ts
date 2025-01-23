@@ -15,11 +15,11 @@ export async function updatePost(eventData: { id: string, title: string; content
                 title, content
             }
         })
+        return adjContact
     } catch (error) {
         console.log("Updates Contact Error " + error)
         throw new Error("Error Updating " + error)
         
     }
-    revalidatePath('/')
-    redirect('/')
+   
 }

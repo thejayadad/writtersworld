@@ -3,41 +3,44 @@ import React, { useState } from "react";
 import RichEditor from "./tip-tap";
 import { addPost } from "@/lib/actions/add-post";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter(); // useRouter hook for redirection
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+  
     try {
       const postData = { title, content };
-
-      // Call the addPost function to create a new post
+  
+      // Call the addPost function and check the response
       const response = await addPost(postData);
-
-      if (response) {
+  
+      if (response !== null) {
         // Show success notification
         toast.success("Post added successfully!");
-
+  
         // Clear the form fields
         setTitle("");
         setContent("");
+        router.push("/");
+
       } else {
         toast.error("Failed to add post. Please try again.");
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again later.");
-      console.log("Error adding post:" + error);
+      console.error("Error adding post:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="max-w-2xl mx-auto p-4">
       <form onSubmit={handleSubmit} className="space-y-4">

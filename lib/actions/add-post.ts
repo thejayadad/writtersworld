@@ -13,11 +13,10 @@ export async function addPost(eventData: { title: string; content: string }) {
             title, content
         }
     })
+    return newContact
 } catch (error) {
     console.log("New Contact Error " + error)
     
 }
-revalidatePath('/')
-redirect('/')
 
 }

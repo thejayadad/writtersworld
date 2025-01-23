@@ -15,4 +15,4 @@ npx prisma generate
 
 # TIP TAP
 - install the dependencies
-- 
+- npm install @tiptap/extension-text-style

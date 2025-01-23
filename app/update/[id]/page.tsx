@@ -3,8 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
-const UpdatePostPage = async ({params}) => {
-       const { id } = await params
+interface UpdatePostPageProps {
+  params: {
+    id: string;
+  };
+}
+
+const UpdatePostPage = async ({ params }: UpdatePostPageProps) => {
+  const { id } = await params
      
       const post = await prisma.post.findUnique({
         where: {
@@ -17,8 +23,8 @@ const UpdatePostPage = async ({params}) => {
   return (
     <div className="max-w-3xl mx-auto p-6">
     <h1 className="text-2xl font-bold mb-4">Update Post</h1>
-    <UpdatePostForm post={post} />
-  </div>
+    <UpdatePostForm post={{ id: post.id, title: post.title, content: post.content }} />
+    </div>
   )
 }
 

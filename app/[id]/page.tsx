@@ -1,9 +1,14 @@
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import DOMPurify from 'dompurify';
 
-const SinglePost = async ({ params }) => {
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const SinglePost = async ({ params }:Props) => {
     // Ensure the id is correctly parsed as a number if needed
     const { id } = await params
  

@@ -1,8 +1,9 @@
+import DeletePost from "@/components/delete-post";
 import { getPost } from "@/lib/actions/get-post";
 import Link from "next/link";
 
 export default async function Home() {
-  const posts = await getPost();
+  const posts = await getPost() ?? [];  // Ensure posts is always an array
 
   return (
     <div className="mx-auto max-w-screen-lg px-4">
@@ -17,7 +18,7 @@ export default async function Home() {
               Update
             </Link>
             <div>
-              Delete
+            <DeletePost postId={post.id.toString()} />
             </div>
           </div>
          </div>

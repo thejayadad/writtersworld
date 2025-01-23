@@ -12,9 +12,9 @@ export async function deleteContact(eventData: string){
                 id: id
             }
         })
+        return deletecon
     } catch (error) {
         console.log("Error deleting.. " + error)
     }
-    revalidatePath('/')
-    redirect('/')
+ 
 }
